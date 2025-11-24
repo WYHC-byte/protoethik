@@ -1,0 +1,597 @@
+<!DOCTYPE html><!-- Last Published: Thu Nov 20 2025 21:10:25 GMT+0000 (Coordinated Universal Time) -->
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protoethik | The Future of Machine Reasoning</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <meta name="description" content="Protoethik - Building the next generation of AI systems that think deeply, reason transparently, and empower humanity.">
+    <meta name="keywords" content="Protoethik, AI, machine reasoning, TyloAI, artificial intelligence, AI safety">
+    <meta property="og:title" content="Protoethik | The Future of Machine Reasoning">
+    <meta property="og:description" content="Building AI that thinks deeply and acts responsibly.">
+    <style>
+        /* =========================================
+           1. 视觉系统 (Visual System)
+           ========================================= */
+        :root {
+            --text-main: #050505;
+            --text-gray: #555555;
+            --bg-white: #ffffff;
+            --bg-yellow: #FFFDF2;       /* 浅黄色 */
+            --accent-blue: #2563EB;     /* 科技蓝 */
+            --btn-radius: 50px;         /* 胶囊圆角 */
+            --font-stack: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-white);
+            font-family: var(--font-stack);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::selection { background: var(--accent-blue); color: #fff; }
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+
+        /* =========================================
+           2. 导航栏 (Nav)
+           ========================================= */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .logo {
+            font-weight: 800; font-size: 1.4rem; letter-spacing: -0.03em;
+            text-transform: uppercase; color: #000;
+        }
+
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: #666; font-size: 0.95rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--accent-blue); }
+
+        .btn-nav {
+            background-color: #000; color: #fff !important;
+            padding: 10px 24px; border-radius: var(--btn-radius);
+            font-weight: 600; font-size: 0.9rem;
+        }
+
+        /* =========================================
+           3. Hero 主视觉区 (Updated Animation - No Diagonal Line)
+           ========================================= */
+        main {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex; align-items: center;
+            padding: 110px 40px 60px 40px;
+            background-color: transparent;
+            overflow: hidden;
+        }
+
+        /* 动画背景层容器 */
+        .hero-visual-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; /* 在内容之下 */
+            pointer-events: none;
+        }
+
+        /* 右侧图片区域 */
+        .hero-image-right {
+            position: absolute;
+            top: 0; right: 0;
+            width: 55%; /* 占据右侧空间 */
+            height: 100%;
+            background-image: url('hero-background.jpg'); /* 使用原来的图片 */
+            background-size: cover;
+            background-position: center left;
+            z-index: -1;
+            opacity: 0; /* 初始隐藏 */
+            /* 保持直角边缘，移除 clip-path */
+            animation: imgFadeIn 1.2s ease-out 0.4s forwards;
+        }
+
+        /* 内容区域 */
+        .hero-content {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            z-index: 2; /* 确保在图片之上 */
+            display: flex; flex-direction: column; justify-content: center;
+            height: 100%;
+        }
+
+        /* 文字组动画 */
+        .hero-text-group {
+            max-width: 800px;
+            margin-bottom: 50px;
+            opacity: 0; /* 初始隐藏 */
+            transform: translateX(-30px); /* 初始位置偏左 */
+            animation: textFadeIn 1s ease-out 0.2s forwards;
+        }
+
+        /* 卡片组动画 */
+        .cards-container {
+            display: flex; gap: 24px; width: 100%; max-width: 900px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardsFadeIn 1s ease-out 0.6s forwards; /* 比文字晚一点 */
+        }
+
+        /* =========================================
+           动画关键帧 Definition
+           ========================================= */
+        
+        /* 1. 图片淡入 */
+        @keyframes imgFadeIn {
+            0% { opacity: 0; transform: translateX(20px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        /* 2. 文字淡入 + 向右归位 */
+        @keyframes textFadeIn {
+            0% { opacity: 0; transform: translateX(-30px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        /* 3. 卡片上浮淡入 */
+        @keyframes cardsFadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+
+        /* 原有样式保持不变 */
+        h1 {
+            font-size: 4.2rem; line-height: 1.1; margin-bottom: 24px;
+            font-weight: 700; letter-spacing: -0.04em; color: #000;
+        }
+        
+        h1 u {
+            text-decoration: none;
+            border-bottom: 3px solid var(--accent-blue);
+            padding-bottom: 2px;
+        }
+
+        h1 a:hover u {
+            border-bottom-color: #000;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #444;
+            line-height: 1.6;
+            max-width: 700px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0,0,0,0.05);
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            flex: 1; display: flex; flex-direction: column; justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            border-color: var(--accent-blue);
+        }
+        .card h3 { font-size: 1.5rem; font-weight: 700; margin: 10px 0; }
+        .card p { color: #666; font-size: 1rem; margin-bottom: 24px; }
+
+        .btn {
+            display: inline-block; padding: 14px 0; text-align: center;
+            border-radius: var(--btn-radius); font-weight: 600; width: 100%;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .btn-black { background-color: #000; color: #fff; }
+        .btn-black:hover { background-color: var(--accent-blue); }
+        .btn-outline { background: transparent; border: 1px solid #ccc; color: #000; }
+        .btn-outline:hover { border-color: #000; background: #fff; }
+
+        /* =========================================
+           4. 视频板块 (Light Yellow)
+           ========================================= */
+        .video-quote-section {
+            background-color: var(--bg-yellow);
+            padding: 120px 40px;
+            position: relative;
+        }
+
+        .content-wrapper { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; gap: 80px; }
+
+        .video-container {
+            width: 55%; position: relative;
+            border-radius: 16px; overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            aspect-ratio: 16/9; background: #000;
+        }
+        .video-cover {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            cursor: pointer; z-index: 2;
+        }
+        .video-cover img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+        .play-button {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 70px; height: 70px; background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px); border-radius: 50%; border: 2px solid #fff;
+            display: flex; justify-content: center; align-items: center; transition: all 0.3s;
+        }
+        .video-cover:hover .play-button { background: #fff; transform: translate(-50%, -50%) scale(1.1); }
+        .play-button svg { fill: #fff; width: 24px; }
+        .video-cover:hover .play-button svg { fill: #000; }
+        
+        #realVideo { width: 100%; height: 100%; display: none; }
+        .video-container.playing .video-cover { display: none; }
+        .video-container.playing #realVideo { display: block; }
+
+        .quote-container { width: 45%; }
+        blockquote {
+            font-size: 2rem; font-weight: 600; line-height: 1.3;
+            letter-spacing: -0.02em; color: #000;
+            border-left: 4px solid var(--accent-blue); padding-left: 30px;
+        }
+
+        /* =========================================
+           5. 公司简介 (White Background)
+           ========================================= */
+        .company-intro {
+            background-color: var(--bg-white);
+            padding: 120px 40px;
+        }
+        .intro-content { max-width: 1400px; margin: 0 auto; }
+
+        .intro-text-row { display: flex; justify-content: space-between; margin-bottom: 80px; gap: 60px; }
+        .intro-headline { width: 45%; }
+        .intro-headline h2 { font-size: 2.8rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; }
+        .intro-description { width: 50%; color: var(--text-gray); font-size: 1.2rem; }
+        .intro-description p { margin-bottom: 20px; }
+
+        .intro-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .intro-card {
+            border-radius: 16px; overflow: hidden; aspect-ratio: 1;
+            background: #f5f5f5; position: relative;
+        }
+        .intro-card img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* =========================================
+           6. Featured 板块 (Light Yellow)
+           ========================================= */
+        .featured-section {
+            background-color: var(--bg-yellow);
+            padding: 120px 40px;
+        }
+
+        .featured-container { max-width: 1400px; margin: 0 auto; display: flex; gap: 60px; }
+        .featured-title { width: 30%; font-size: 2.5rem; font-weight: 700; letter-spacing: -0.03em; }
+        .featured-list { width: 70%; display: flex; flex-direction: column; }
+
+        .featured-item {
+            display: grid; grid-template-columns: 3fr 1fr 1fr;
+            align-items: center; padding: 30px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            text-decoration: none; color: #000;
+            transition: padding-left 0.2s ease;
+        }
+        .featured-item:first-child { border-top: 1px solid rgba(0,0,0,0.1); }
+        .featured-item:hover { padding-left: 10px; border-color: #000; }
+        .f-item-title { font-weight: 600; font-size: 1.2rem; }
+        .f-item-category {
+            font-size: 0.9rem; color: var(--accent-blue);
+            text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em;
+        }
+        .f-item-date { color: #888; font-size: 0.95rem; text-align: right; }
+
+        /* =========================================
+           7. Footer
+           ========================================= */
+        .footer {
+            background-color: #080808;
+            color: #ffffff;
+            padding: 80px 40px 40px 40px;
+            font-size: 0.95rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .footer-brand {
+            flex: 0 0 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-brand p {
+            color: #888;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .footer-section h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 12px; }
+        .footer-section ul li a { color: #ccc; transition: color 0.2s, padding-left 0.2s; }
+        .footer-section ul li a:hover { color: #fff; padding-left: 4px; }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 80px auto 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .footer-social-icons { display: flex; gap: 20px; }
+        .footer-social-icons a { color: #fff; opacity: 0.6; transition: opacity 0.2s; }
+        .footer-social-icons a:hover { opacity: 1; }
+        .footer-social-icons svg { fill: currentColor; }
+
+        /* =========================================
+           8. 响应式 (Responsive)
+           ========================================= */
+        @media (max-width: 1024px) {
+            main { padding-top: 120px; height: auto; }
+            .hero-content { width: 100%; }
+            /* 在移动端隐藏右侧图片，避免文字看不清 */
+            .hero-image-right { width: 100%; opacity: 0.1 !important; }
+            
+            h1 { font-size: 3rem; }
+            .content-wrapper, .intro-text-row, .featured-container, .footer-content { flex-direction: column; gap: 40px; }
+            .video-container, .quote-container, .intro-headline, .intro-description, .featured-title, .featured-list { width: 100%; }
+            .featured-item { grid-template-columns: 1fr; gap: 8px; }
+            .f-item-date { text-align: left; }
+            .intro-cards { grid-template-columns: 1fr; }
+            .cards-container { flex-direction: column; }
+            
+            .footer-brand { max-width: 100%; }
+            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">PROTOETH<span style="font-style:italic;">I</span>K</div>
+        <div class="nav-links">
+            <a href="research.html">Research</a>
+            <a href="https://platform.tyloai.com">API</a>
+            <a href="news.html">News</a>
+            <a href="about.html">Company</a>
+            <a href="https://tyloai.com" class="btn-nav">Try TyloAI</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="hero-visual-layer">
+            <div class="hero-image-right"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-text-group">
+                <h1>
+                    Building AI that thinks 
+                    <a href="#"><u>deeply</u></a> and 
+                    <a href="LLM-Thinking-Protocol-Injection.html"><u>acts responsibly</u></a>.
+                </h1>
+                <p class="hero-subtitle">
+                    Protoethik is building the next generation of AI systems that think deeply, reason transparently, and empower humanity.  
+                </p>
+            </div>
+
+            <div class="cards-container">
+                <div class="card">
+                    <div>
+                        <h3>Chat with TyloAI</h3>
+                        <p>Experience our most capable model, designed for complex reasoning.</p>
+                    </div>
+                    <a href="https://tyloai.com" class="btn btn-black">Start Chatting</a>
+                </div>
+                <div class="card">
+                    <div>
+                        <h3>ode-code CLI</h3>
+                        <p>ode-code CLI is a terminal-based AI assistant that understands your codebase and automates tasks to help you code faster.</p>
+                    </div>
+                    <a href="https://docs.tyloai.com/ode-code" class="btn btn-outline">Read Docs</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="video-quote-section">
+        <div class="content-wrapper">
+            <div class="video-container" id="videoArea">
+                <div class="video-cover" onclick="playVideo()">
+                    <img src="video.jpg" alt="Cover">
+                    <div class="play-button">
+                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                </div>
+                <video id="realVideo" controls>
+                    <source src="video.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="quote-container">
+                <blockquote>
+                    "When you talk to a large language model, you are engaging with the sum of human knowledge, refined."
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+    <section class="company-intro">
+        <div class="intro-content">
+            <div class="intro-text-row">
+                <div class="intro-headline">
+                    <h2>Safety is the Axiom of Progress.</h2>
+                </div>
+                <div class="intro-description">
+                    <p>Founded in January 2025, TyloAI is on a mission to develop AI systems that think deeply, reason transparently, and genuinely understand the world. We believe AI should empower humanity, not replace human judgment.</p>
+                    <p>Our first product, <strong>TyloAI</strong>, demonstrates what's possible when cognitive architecture meets responsible development. With the ode-7 model family, we're not just building tools—we're crafting thinking partners that adapt to your needs and grow with you.</p>
+                </div>
+            </div>
+            <div class="intro-cards">
+                <div class="intro-card"><img src="1.jpg" alt="Visual 1"></div>
+                <div class="intro-card"><img src="2.jpg" alt="Visual 2"></div>
+                <div class="intro-card"><img src="3.jpg" alt="Visual 3"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-section">
+        <div class="featured-container">
+            <h2 class="featured-title">Featured</h2>
+            <div class="featured-list">
+                <a href="https://docs.tyloai.com/ode-code" class="featured-item">
+                    <div class="f-item-title">Introducing ode-code CLI</div>
+                    <div class="f-item-category">Product</div>
+                    <div class="f-item-date">Nov 15, 2025</div>
+                </a>
+                <a href="https://docs.tyloai.com/docs.html" class="featured-item">
+                    <div class="f-item-title">Introducing ode-6 famliy</div>
+                    <div class="f-item-category">Product</div>
+                    <div class="f-item-date">Nov 13, 2025</div>
+                </a>
+                <a href="LLM-Thinking-Protocol-Injection.html" class="featured-item">
+                    <div class="f-item-title">The Performance of "Thinking"</div>
+                    <div class="f-item-category">Research</div>
+                    <div class="f-item-date">Nov 12, 2025</div>
+                </a>
+                <a href="https://github.com/TyloAI/TyloAI-System-Prompts" class="featured-item">
+                    <div class="f-item-title">TyloAI-System-Prompts</div>
+                    <div class="f-item-category">Open-Source</div>
+                    <div class="f-item-date">Nov 05, 2025</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Protoethik</h3>
+                <p>Building responsible AI systems that empower humanity through deep thinking and transparent reasoning. Founded January 2025.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="https://tyloai.com/product/overview.html">TyloAI</a></li>
+                    <li><a href="https://tyloai.com/product/ode-code.html">ode-code</a></li>
+                    <li><a href="https://platform.tyloai.com/api">API(Console login)</a></li>
+                    <li><a href="ode.html">ode-7 Models</a></li>
+                    <li><a href="plan.html">Free Plan</a></li>
+                    <li><a href="plan.html">Pro Plan</a></li>
+                    <li><a href="plan.html">Max Plan</a></li>
+                    <li><a href="plan-for-enterprise.html">Enterprise plan</a></li>
+                    <li><a href="https://tyloai.com/login">Login to TyloAI</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Model</h4>
+                <ul>
+                    <li><a href="nano-model.html">Nano Models</a></li>
+                    <li><a href="ode.html">ode Models</a></li>
+                    <li><a href="prism-model.html">Prism Models</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>TyloAI Developer Platform</h4>
+                <ul>
+                    <li><a href="https://docs.tyloai.com">Overview</a></li>
+                    <li><a href="https://docs.tyloai.com/docs.html">Docs</a></li>
+                    <li><a href="https://docs.tyloai.com/ode-code.html">ode-code docs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">Protoethik</a></li>
+                    <li><a href="research.html">Research</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="news.html">News & Blog</a></li>
+                    <li><a href="https://github.com/TyloAI/" target="_blank">Open Source</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Terms and policies</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                    <li><a href="mailto:info@tyloai.com">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Protoethik. All rights reserved. | Building AI that thinks deeply and acts responsibly.</p>
+            <div class="footer-social-icons">
+                <a href="https://www.youtube.com/tyloai" target="_blank" aria-label="TyloAI on YouTube">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zM9.777 15.385V8.615l6.23 3.385-6.23 3.385z"/></svg>
+                </a>
+                <a href="https://github.com/TyloAI" target="_blank" aria-label="TyloAI on GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.034c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://x.com/TyloAI" target="_blank" aria-label="TyloAI on X (Twitter)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function playVideo() {
+            document.getElementById('videoArea').classList.add('playing');
+            document.getElementById('realVideo').play();
+        }
+    </script>
+</body>
+</html>

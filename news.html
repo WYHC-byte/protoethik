@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News | Protoethik</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <meta name="description" content="Latest news, product releases, and updates from Protoethik.">
+    <style>
+        /* =========================================
+           1. Shared Styles (Identical to Research.html)
+           ========================================= */
+        :root {
+            --text-main: #050505;
+            --text-gray: #555555;
+            --bg-white: #ffffff;
+            --bg-offwhite: #f4f4f0; 
+            --accent-blue: #2563EB;
+            --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-serif: "Georgia", "Times New Roman", Times, serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-white);
+            font-family: var(--font-sans);
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: all 0.2s; }
+        img { display: block; width: 100%; height: auto; }
+
+        /* =========================================
+           2. Navigation
+           ========================================= */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .logo {
+            font-weight: 800; font-size: 1.4rem; letter-spacing: -0.03em;
+            text-transform: uppercase; color: #000; font-family: var(--font-sans);
+        }
+
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: #666; font-size: 0.95rem; font-weight: 500; font-family: var(--font-sans); }
+        .nav-links a:hover { color: var(--accent-blue); }
+
+        .btn-nav {
+            background-color: #000; color: #fff !important;
+            padding: 10px 24px; border-radius: 50px;
+            font-weight: 600; font-size: 0.9rem;
+        }
+
+        /* =========================================
+           3. News Grid Layout
+           ========================================= */
+        main {
+            padding-top: 80px;
+            min-height: 100vh;
+            background-color: var(--bg-white);
+            padding-bottom: 80px;
+        }
+
+        .news-paper {
+            max-width: 1200px;
+            margin: 40px auto;
+            border: 2px solid #000;
+            background: var(--bg-white);
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+        }
+
+        /* Grid Utilities */
+        .col-12 { grid-column: span 12; }
+        .col-8 { grid-column: span 8; }
+        .col-6 { grid-column: span 6; }
+        .col-4 { grid-column: span 4; }
+
+        .border-right { border-right: 1px solid #000; }
+        .border-bottom { border-bottom: 1px solid #000; }
+        .padding-lg { padding: 40px; }
+        .padding-md { padding: 24px; }
+        .padding-sm { padding: 16px; }
+        
+        .bg-stripe { 
+            background-image: repeating-linear-gradient(
+                45deg,
+                #f0f0f0,
+                #f0f0f0 1px,
+                #ffffff 1px,
+                #ffffff 6px
+            );
+        }
+
+        /* Typography */
+        .news-header {
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 4px double #000;
+        }
+        .news-header h1 {
+            font-family: var(--font-serif);
+            font-size: 5rem;
+            text-transform: uppercase;
+            line-height: 0.9;
+            letter-spacing: -0.03em;
+        }
+        .news-meta-bar {
+            display: flex; justify-content: space-between;
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+            padding: 8px 20px;
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+
+        .tag-label {
+            display: inline-block;
+            background: #000; color: #fff;
+            padding: 4px 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .date-stamp {
+            font-family: var(--font-sans);
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Article Styles */
+        .article-headline {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            line-height: 1.1;
+            color: #000;
+        }
+        .article-headline:hover { text-decoration: underline; }
+
+        .lead-story h2 { font-size: 3.5rem; margin-bottom: 20px; }
+        .lead-story p { font-size: 1.2rem; color: #444; line-height: 1.6; max-width: 90%; }
+
+        .secondary-story h3 { font-size: 2rem; margin-bottom: 12px; }
+        .secondary-story p { font-size: 1rem; color: #555; }
+
+        .tertiary-story h4 { font-size: 1.5rem; margin-bottom: 10px; }
+        
+        .read-more {
+            display: inline-block;
+            margin-top: 16px;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 0.9rem;
+            border-bottom: 2px solid #000;
+            padding-bottom: 2px;
+        }
+        .read-more:hover { background: #000; color: #fff; border-color: transparent; }
+
+        /* =========================================
+           4. Footer (Identical)
+           ========================================= */
+        .footer {
+            background-color: #080808;
+            color: #ffffff;
+            padding: 80px 40px 40px 40px;
+            font-size: 0.95rem;
+        }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px; }
+        .footer-brand { flex: 0 0 100%; max-width: 300px; margin-bottom: 20px; }
+        .footer-brand h3 { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.05em; font-family: var(--font-sans); }
+        .footer-brand p { color: #888; line-height: 1.6; font-size: 0.9rem; }
+        .footer-section { flex: 1; min-width: 160px; }
+        .footer-section h4 { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #666; margin-bottom: 24px; font-family: var(--font-sans); }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 12px; }
+        .footer-section ul li a { color: #ccc; transition: color 0.2s; font-family: var(--font-sans); }
+        .footer-section ul li a:hover { color: #fff; }
+        .footer-bottom { max-width: 1400px; margin: 80px auto 0 auto; padding-top: 30px; border-top: 1px solid #222; display: flex; justify-content: space-between; align-items: center; color: #666; font-size: 0.85rem; font-family: var(--font-sans); }
+        .footer-social-icons { display: flex; gap: 20px; }
+        .footer-social-icons svg { fill: currentColor; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .news-paper { display: flex; flex-direction: column; border: none; max-width: 100%; width: 100%; margin: 0; }
+            .col-12, .col-8, .col-6, .col-4 { width: 100%; border-right: none; }
+            .border-right { border-right: none; }
+            .news-header h1 { font-size: 3rem; }
+            .lead-story h2 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">PROTOETH<span style="font-style:italic;">I</span>K</div>
+        <div class="nav-links">
+            <a href="research.html">Research</a>
+            <a href="https://platform.tyloai.com">API</a>
+            <a href="news.html" style="color:var(--text-main); font-weight: 700;">News</a>
+            <a href="about.html">Company</a>
+            <a href="https://tyloai.com" class="btn-nav">Try TyloAI</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="news-paper">
+            
+            <div class="col-12">
+                <div class="news-header">
+                    <h1>Newsroom</h1>
+                </div>
+                <div class="news-meta-bar">
+                    <span>Vol. 1 &mdash; Issue 25</span>
+                    <span>San Francisco, CA</span>
+                    <span>Updated Daily</span>
+                </div>
+            </div>
+
+            <div class="col-8 border-right border-bottom padding-lg lead-story">
+                <span class="tag-label">Product Launch</span>
+                <span class="date-stamp">Nov 15, 2025</span>
+                <a href="https://docs.tyloai.com/ode-code">
+                    <h2 class="article-headline">Introducing ode-code CLI: The Terminal Assistant</h2>
+                </a>
+                <p>
+                    We are streamlining the developer experience. The new ode-code CLI is a terminal-based AI assistant that understands your entire codebase context. It automates routine tasks, refactors code on the fly, and helps you ship faster without leaving your command line environment.
+                </p>
+                <a href="https://docs.tyloai.com/ode-code" class="read-more">Read Documentation &rarr;</a>
+            </div>
+
+            <div class="col-4 border-bottom padding-lg secondary-story bg-stripe">
+                <span class="tag-label">Model Release</span>
+                <span class="date-stamp">Nov 13, 2025</span>
+                <a href="https://docs.tyloai.com/docs.html">
+                    <h3 class="article-headline">Introducing the ode-6 Family</h3>
+                </a>
+                <p>
+                    Our newest generation of models arrives with improved reasoning capabilities and efficiency. The ode-6 family is designed to balance performance with computational cost.
+                </p>
+                <a href="https://docs.tyloai.com/docs.html" class="read-more">Explore Models &rarr;</a>
+            </div>
+
+            <div class="col-6 border-right padding-lg secondary-story">
+                <span class="tag-label">Research Insight</span>
+                <span class="date-stamp">Nov 12, 2025</span>
+                <a href="LLM-Thinking-Protocol-Injection.html">
+                    <h3 class="article-headline">The Performance of "Thinking"</h3>
+                </a>
+                <p>
+                    Does visualizing reasoning actually improve model reliability? Our latest study explores the authenticity, manipulability, and false transparency risks inherent in current Chain-of-Thought visualizations.
+                </p>
+                <a href="LLM-Thinking-Protocol-Injection.html" class="read-more">Read the Paper &rarr;</a>
+            </div>
+
+            <div class="col-6 padding-lg secondary-story">
+                <span class="tag-label">Open Source</span>
+                <span class="date-stamp">Nov 05, 2025</span>
+                <a href="https://github.com/TyloAI/TyloAI-System-Prompts">
+                    <h3 class="article-headline">TyloAI-System-Prompts Released</h3>
+                </a>
+                <p>
+                    Transparency starts at the root. We are open-sourcing the system prompts used to guide TyloAI models, allowing the community to understand how we align our assistants for safety and helpfulness.
+                </p>
+                <a href="https://github.com/TyloAI/TyloAI-System-Prompts" class="read-more">View on GitHub &rarr;</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Protoethik</h3>
+                <p>Building responsible AI systems that empower humanity through deep thinking and transparent reasoning. Founded January 2025.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="https://tyloai.com/product/overview.html">TyloAI</a></li>
+                    <li><a href="https://tyloai.com/product/ode-code.html">ode-code</a></li>
+                    <li><a href="https://platform.tyloai.com/api">API(Console login)</a></li>
+                    <li><a href="ode.html">ode-7 Models</a></li>
+                    <li><a href="plan.html">Free Plan</a></li>
+                    <li><a href="plan.html">Pro Plan</a></li>
+                    <li><a href="plan.html">Max Plan</a></li>
+                    <li><a href="plan-for-enterprise.html">Enterprise plan</a></li>
+                    <li><a href="https://tyloai.com/login">Login to TyloAI</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Model</h4>
+                <ul>
+                    <li><a href="nano-model.html">Nano Models</a></li>
+                    <li><a href="ode.html">ode Models</a></li>
+                    <li><a href="prism-model.html">Prism Models</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>TyloAI Developer Platform</h4>
+                <ul>
+                    <li><a href="https://docs.tyloai.com">Overview</a></li>
+                    <li><a href="https://docs.tyloai.com/docs.html">Docs</a></li>
+                    <li><a href="https://docs.tyloai.com/ode-code.html">ode-code docs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">Protoethik</a></li>
+                    <li><a href="research.html">Research</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="news.html">News & Blog</a></li>
+                    <li><a href="https://github.com/TyloAI/" target="_blank">Open Source</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Terms and policies</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                    <li><a href="mailto:info@tyloai.com">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Protoethik. All rights reserved. | Building AI that thinks deeply and acts responsibly.</p>
+            <div class="footer-social-icons">
+                <a href="https://www.youtube.com/tyloai" target="_blank" aria-label="TyloAI on YouTube">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zM9.777 15.385V8.615l6.23 3.385-6.23 3.385z"/></svg>
+                </a>
+                <a href="https://github.com/TyloAI" target="_blank" aria-label="TyloAI on GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.034c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://x.com/TyloAI" target="_blank" aria-label="TyloAI on X (Twitter)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

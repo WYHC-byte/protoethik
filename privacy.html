@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Protoethik</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <style>
+        /* =========================================
+           复用主页基础样式 (Base Styles)
+           ========================================= */
+        :root {
+            --text-main: #050505;
+            --text-gray: #555555;
+            --bg-white: #ffffff;
+            --bg-yellow: #FFFDF2;
+            --accent-blue: #2563EB;
+            --btn-radius: 50px;
+            --font-stack: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-white);
+            font-family: var(--font-stack);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        
+        /* =========================================
+           导航栏 (Nav) - 与主页一致
+           ========================================= */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .logo {
+            font-weight: 800; font-size: 1.4rem; letter-spacing: -0.03em;
+            text-transform: uppercase; color: #000;
+        }
+
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: #666; font-size: 0.95rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--accent-blue); }
+
+        .btn-nav {
+            background-color: #000; color: #fff !important;
+            padding: 10px 24px; border-radius: var(--btn-radius);
+            font-weight: 600; font-size: 0.9rem;
+        }
+
+        /* =========================================
+           法律文档专用样式 (Legal Layout)
+           ========================================= */
+        .legal-header {
+            padding: 160px 40px 60px 40px;
+            background-color: var(--bg-yellow);
+            text-align: center;
+        }
+
+        .legal-header h1 {
+            font-size: 3rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px;
+        }
+
+        .legal-meta { color: #666; font-size: 1rem; }
+
+        .legal-container {
+            max-width: 1200px; margin: 0 auto;
+            padding: 80px 40px;
+            display: flex; gap: 60px;
+            position: relative;
+        }
+
+        /* 侧边栏目录 */
+        .legal-sidebar {
+            width: 250px; flex-shrink: 0;
+            position: sticky; top: 120px; height: fit-content;
+        }
+        .legal-sidebar h4 {
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;
+            color: #888; margin-bottom: 20px; font-weight: 700;
+        }
+        .toc-link {
+            display: block; padding: 8px 0; color: #444; font-size: 0.95rem;
+            border-left: 2px solid transparent; padding-left: 16px;
+            margin-bottom: 4px;
+        }
+        .toc-link:hover, .toc-link.active {
+            color: var(--accent-blue); border-left-color: var(--accent-blue);
+        }
+
+        /* 内容区域 */
+        .legal-content { flex: 1; max-width: 750px; }
+        
+        .legal-content h2 {
+            font-size: 1.8rem; font-weight: 700; margin: 50px 0 20px 0;
+            padding-bottom: 10px; border-bottom: 1px solid #eee;
+            scroll-margin-top: 120px; /* 锚点定位偏移 */
+        }
+        .legal-content h2:first-child { margin-top: 0; }
+        
+        .legal-content h3 {
+            font-size: 1.3rem; margin: 30px 0 15px 0; font-weight: 600;
+        }
+
+        .legal-content p {
+            margin-bottom: 18px; color: #333; font-size: 1.05rem; line-height: 1.7;
+        }
+
+        .legal-content ul {
+            margin-bottom: 24px; padding-left: 20px;
+        }
+        .legal-content li {
+            margin-bottom: 10px; color: #333;
+        }
+
+        .highlight-box {
+            background: #F3F4F6; border-left: 4px solid var(--accent-blue);
+            padding: 20px; border-radius: 8px; margin: 30px 0;
+        }
+
+        /* =========================================
+           页脚 (Footer) - 与主页一致
+           ========================================= */
+        .footer {
+            background-color: #080808; color: #ffffff;
+            padding: 80px 40px 40px 40px; font-size: 0.95rem;
+        }
+        .footer-content {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px;
+        }
+        .footer-brand { flex: 0 0 100%; max-width: 300px; margin-bottom: 20px; }
+        .footer-brand h3 { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.05em; }
+        .footer-brand p { color: #888; line-height: 1.6; font-size: 0.9rem; }
+        .footer-section { flex: 1; min-width: 160px; }
+        .footer-section h4 { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #666; margin-bottom: 24px; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 12px; }
+        .footer-section ul li a { color: #ccc; transition: color 0.2s; }
+        .footer-section ul li a:hover { color: #fff; }
+        .footer-bottom {
+            max-width: 1400px; margin: 80px auto 0 auto; padding-top: 30px;
+            border-top: 1px solid #222; display: flex; justify-content: space-between; align-items: center; color: #666; font-size: 0.85rem;
+        }
+        .footer-social-icons { display: flex; gap: 20px; }
+        .footer-social-icons a { color: #fff; opacity: 0.6; }
+        .footer-social-icons a:hover { opacity: 1; }
+        .footer-social-icons svg { fill: currentColor; }
+
+        @media (max-width: 1024px) {
+            .legal-container { flex-direction: column; }
+            .legal-sidebar { width: 100%; position: relative; top: 0; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+            .legal-header h1 { font-size: 2.2rem; }
+            .footer-content, .footer-bottom { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">PROTOETH<span style="font-style:italic;">I</span>K</div>
+        <div class="nav-links">
+            <a href="research.html">Research</a>
+            <a href="https://platform.tyloai.com">API</a>
+            <a href="news.html">News</a>
+            <a href="about.html">Company</a>
+            <a href="https://tyloai.com" class="btn-nav">Try TyloAI</a>
+        </div>
+    </nav>
+
+    <header class="legal-header">
+        <h1>Privacy Policy</h1>
+        <p class="legal-meta">Effective Date: November 21, 2025 | Last Updated: November 21, 2025</p>
+    </header>
+
+    <div class="legal-container">
+        <aside class="legal-sidebar">
+            <h4>Contents</h4>
+            <a href="#intro" class="toc-link">1. Introduction</a>
+            <a href="#collection" class="toc-link">2. Information We Collect</a>
+            <a href="#usage" class="toc-link">3. How We Use Data</a>
+            <a href="#training" class="toc-link active">4. AI Model Training</a>
+            <a href="#sharing" class="toc-link">5. Data Sharing</a>
+            <a href="#security" class="toc-link">6. Security & Retention</a>
+            <a href="#rights" class="toc-link">7. Your Rights</a>
+            <a href="#contact" class="toc-link">8. Contact Us</a>
+        </aside>
+
+        <article class="legal-content">
+            <section id="intro">
+                <h2>1. Introduction</h2>
+                <p>At Protoethik ("we," "our," or "us"), our mission is to build AI systems that think deeply and reason transparently. We believe that transparency starts with how we handle your data. This Privacy Policy explains how we collect, use, and safeguard your information when you use our websites, products (including TyloAI and ode-code), and APIs (collectively, the "Services").</p>
+                <p>By using our Services, you agree to the collection and use of information in accordance with this policy.</p>
+            </section>
+
+            <section id="collection">
+                <h2>2. Information We Collect</h2>
+                <h3>A. Information You Provide</h3>
+                <ul>
+                    <li><strong>Account Information:</strong> Name, email address, password, and billing details when you register or subscribe.</li>
+                    <li><strong>User Content (Inputs):</strong> Data, text, code, or files you input into our models (e.g., "prompts") and the generated outputs.</li>
+                    <li><strong>Communications:</strong> Feedback, support queries, and other communications with us.</li>
+                </ul>
+
+                <h3>B. Information Automatically Collected</h3>
+                <p>We collect standard technical data such as IP addresses, browser type, device information, and usage logs (tokens used, latency) to ensure system stability and security.</p>
+            </section>
+
+            <section id="usage">
+                <h2>3. How We Use Data</h2>
+                <p>We use your information primarily to provide, maintain, and improve our Services:</p>
+                <ul>
+                    <li>Processing your inputs to generate AI responses.</li>
+                    <li>Managing your account and billing.</li>
+                    <li>Detecting and preventing abuse (e.g., harmful content generation).</li>
+                    <li>Debugging technical issues.</li>
+                </ul>
+            </section>
+
+            <section id="training">
+                <div class="highlight-box">
+                    <h2>4. AI Model Training & Privacy</h2>
+                    <p>We distinguish between <strong>Consumer</strong> (Free/Plus) and <strong>Enterprise/API</strong> data handling to ensure professional compliance.</p>
+                    
+                    <h3>For Enterprise and API Users</h3>
+                    <p><strong>We do NOT train on your data.</strong> Data submitted via our API or Enterprise plans is not used to train, retrain, or fine-tune our foundation models (such as the ode-7 family). Your proprietary code and reasoning chains remain yours.</p>
+
+                    <h3>For Consumer (Web Chat) Users</h3>
+                    <p>We may use de-identified, aggregated interactions from the free web chat interface to improve model safety and reasoning capabilities, unless you opt-out via settings. We strip personally identifiable information (PII) before any such use.</p>
+                </div>
+            </section>
+
+            <section id="sharing">
+                <h2>5. Data Sharing</h2>
+                <p>We do not sell your personal data. We only share data in the following limited circumstances:</p>
+                <ul>
+                    <li><strong>Service Providers:</strong> Trusted vendors (e.g., cloud hosting, payment processors) who assist in operating our services, bound by strict confidentiality agreements.</li>
+                    <li><strong>Legal Requirements:</strong> If required by law, subpoena, or other legal process.</li>
+                    <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, or sale of assets.</li>
+                </ul>
+            </section>
+
+            <section id="security">
+                <h2>6. Security & Retention</h2>
+                <p>We implement enterprise-grade security measures, including encryption in transit (TLS) and at rest. However, no method of transmission over the internet is 100% secure.</p>
+                <p>We retain your personal information only for as long as is necessary for the purposes set out in this Privacy Policy, or as needed to comply with our legal obligations.</p>
+            </section>
+
+            <section id="rights">
+                <h2>7. Your Rights</h2>
+                <p>Depending on your location (e.g., GDPR for EU/UK, CCPA for California), you may have rights to access, correct, delete, or export your personal data. You can manage most settings directly in your account dashboard or contact us for assistance.</p>
+            </section>
+
+            <section id="contact">
+                <h2>8. Contact Us</h2>
+                <p>If you have any questions about this Privacy Policy, please contact our Data Protection Officer at:</p>
+                <p><strong>Email:</strong> privacy@tyloai.com<br>
+                <strong>Address:</strong> Protoethik Inc., San Francisco, CA, USA.</p>
+            </section>
+        </article>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Protoethik</h3>
+                <p>Building responsible AI systems that empower humanity through deep thinking and transparent reasoning. Founded January 2025.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="https://tyloai.com/product/overview.html">TyloAI</a></li>
+                    <li><a href="https://tyloai.com/product/ode-code.html">ode-code</a></li>
+                    <li><a href="https://platform.tyloai.com/api">API(Console login)</a></li>
+                    <li><a href="ode.html">ode-7 Models</a></li>
+                    <li><a href="plan.html">Free Plan</a></li>
+                    <li><a href="plan.html">Pro Plan</a></li>
+                    <li><a href="plan.html">Max Plan</a></li>
+                    <li><a href="plan-for-enterprise.html">Enterprise plan</a></li>
+                    <li><a href="https://tyloai.com/login">Login to TyloAI</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Model</h4>
+                <ul>
+                    <li><a href="nano-model.html">Nano Models</a></li>
+                    <li><a href="ode.html">ode Models</a></li>
+                    <li><a href="prism-model.html">Prism Models</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>TyloAI Developer Platform</h4>
+                <ul>
+                    <li><a href="https://docs.tyloai.com">Overview</a></li>
+                    <li><a href="https://docs.tyloai.com/docs.html">Docs</a></li>
+                    <li><a href="https://docs.tyloai.com/ode-code.html">ode-code docs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">Protoethik</a></li>
+                    <li><a href="research.html">Research</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="news.html">News & Blog</a></li>
+                    <li><a href="https://github.com/TyloAI/" target="_blank">Open Source</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Terms and policies</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                    <li><a href="mailto:info@tyloai.com">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Protoethik. All rights reserved. | Building AI that thinks deeply and acts responsibly.</p>
+            <div class="footer-social-icons">
+                <a href="https://www.youtube.com/tyloai" target="_blank" aria-label="TyloAI on YouTube">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zM9.777 15.385V8.615l6.23 3.385-6.23 3.385z"/></svg>
+                </a>
+                <a href="https://github.com/TyloAI" target="_blank" aria-label="TyloAI on GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.034c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://x.com/TyloAI" target="_blank" aria-label="TyloAI on X (Twitter)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
