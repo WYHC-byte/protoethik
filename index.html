@@ -547,6 +547,142 @@
             .footer-brand { max-width: 100%; }
             .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
         }
+        @media (max-width: 768px) {
+    /* --- 导航栏优化 --- */
+    nav {
+        padding: 15px 20px;
+    }
+    nav.scrolled {
+        /* 在移动端强制导航栏背景色 */
+        background: var(--bg-white); 
+        backdrop-filter: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .nav-links {
+        /* 隐藏移动端导航链接，通常使用汉堡菜单代替 */
+        display: none; 
+    }
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    /* --- HERO/主视觉区重构：白底+上方图片 --- */
+    main {
+        /* 1. 移除背景图和叠加层 */
+        background-image: none !important;
+        background-color: var(--bg-white); /* 强制白色背景 */
+        height: auto;
+        min-height: 100vh; /* 保证内容足够，即使图片缺失 */
+        padding: 0 20px 40px 20px; /* 调整整体内边距 */
+        display: block; /* 恢复为块级，方便堆叠 */
+    }
+
+    .hero-overlay {
+        display: none; /* 移除黑色遮罩层 */
+    }
+
+    .hero-content {
+        /* 2. 调整内容区域布局 */
+        padding-top: 40px; /* 头部导航下方留白 */
+        max-width: 100%;
+    }
+
+    h1 {
+        font-size: 2.2rem; /* 减小标题字号 */
+        line-height: 1.2;
+        color: var(--text-main); /* 黑色文本 */
+        margin-bottom: 16px;
+    }
+    
+    h1 u {
+        border-bottom-width: 2px;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem; /* 减小副标题字号 */
+        color: var(--text-gray); /* 灰色文本 */
+        margin-bottom: 30px;
+    }
+
+    .hero-cards-row {
+        /* 3. 垂直堆叠卡片 (已经在 @media 1024px 中处理，此处增强) */
+        flex-direction: column; 
+        gap: 15px;
+        max-width: 100%;
+    }
+    
+    .glass-card {
+        /* 4. 卡片样式调整为白底/浅色，移除玻璃效果 */
+        background: var(--bg-yellow); /* 浅黄色背景 */
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: 1px solid var(--border-color);
+        color: var(--text-main); /* 黑色文本 */
+        padding: 20px;
+        border-radius: var(--radius-soft);
+    }
+    .glass-card:hover {
+        background: #f0f0f0; /* 鼠标悬停变灰 */
+    }
+    .glass-card h3, .glass-card p { 
+        color: var(--text-main); 
+    }
+    .glass-card p {
+        opacity: 1; /* 保证文字清晰 */
+        margin-bottom: 15px;
+    }
+    
+    .btn-glass {
+        /* 5. 卡片按钮样式调整 */
+        padding: 12px 0;
+        border-radius: var(--radius-soft);
+    }
+    .btn-glass.outline {
+        background: transparent;
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+    }
+    .btn-glass.outline:hover {
+        background: var(--border-color);
+        border-color: var(--border-color);
+    }
+
+    /* --- 其他部分适配 --- */
+    .axioms-bar, .news-section, .video-quote-section, .company-intro, .featured-section, .cta-section, .footer {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .axioms-grid {
+        grid-template-columns: 1fr; /* 垂直堆叠 */
+    }
+    .axiom-item {
+        padding-left: 0;
+        border-left: none;
+        padding-top: 20px;
+        border-top: 1px solid #333;
+    }
+    .axiom-item:first-child { border-top: none; padding-top: 0; }
+    
+    .news-split {
+        grid-template-columns: 1fr;
+    }
+    .main-story { padding-right: 0; }
+    .side-news-list { padding-left: 0; }
+    .main-story h2 { font-size: 2rem; }
+}
+/* 默认情况下，隐藏移动端专属图片容器 */
+.mobile-hero-image {
+    display: none; 
+}
+
+/* 在移动端显示移动端专属图片容器 */
+@media (max-width: 768px) {
+    .mobile-hero-image {
+        display: block; 
+        width: 100%;
+    }
+}
     </style>
 </head>
 <body>
@@ -562,35 +698,39 @@
         </div>
     </nav>
 
-    <main>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>
-                Building AI that thinks <br>
-                <a href="ode.html"><u>deeply</u></a> and acts responsibly.
-            </h1>
-            <p class="hero-subtitle">
-                Protoethik is building the next generation of AI systems that think deeply, reason transparently, and empower humanity.
-            </p>
+<main>
+    <div class="hero-overlay"></div> 
+    
+    <div class="mobile-hero-image">
+        <img src="hero-m.jpg" alt="Protoethik Mobile Hero Image" style="width: 100%; height: auto; display: block;">
+    </div>
+    <div class="hero-content">
+        <h1>
+            Building AI that thinks <br>
+            <a href="ode.html"><u>deeply</u></a> and acts responsibly.
+        </h1>
+        <p class="hero-subtitle">
+            Protoethik is building the next generation of AI systems that think deeply, reason transparently, and empower humanity.
+        </p>
 
-            <div class="hero-cards-row">
-                <div class="glass-card">
-                    <div>
-                        <h3>Experience TyloAI</h3>
-                        <p>Meet our latest flagship model and the entire ode-7 family on our official chat platform.</p>
-                    </div>
-                    <a href="https://tyloai.com" class="btn-glass">Start Chatting</a>
+        <div class="hero-cards-row">
+            <div class="glass-card">
+                <div>
+                    <h3>Experience TyloAI</h3>
+                    <p>Meet our latest flagship model and the entire ode-7 family on our official chat platform.</p>
                 </div>
-                <div class="glass-card">
-                    <div>
-                        <h3>ode-code CLI</h3>
-                        <p>ode-code CLI is a terminal-based AI assistant that understands your codebase and automates tasks.</p>
-                    </div>
-                    <a href="https://docs.tyloai.com/ode-code.html" class="btn-glass outline">Read Docs</a>
+                <a href="https://tyloai.com" class="btn-glass">Start Chatting</a>
+            </div>
+            <div class="glass-card">
+                <div>
+                    <h3>ode-code CLI</h3>
+                    <p>ode-code CLI is a terminal-based AI assistant that understands your codebase and automates tasks.</p>
                 </div>
+                <a href="https://docs.tyloai.com/ode-code.html" class="btn-glass outline">Read Docs</a>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
     <section class="axioms-bar">
         <div class="axioms-grid">
