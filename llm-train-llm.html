@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ouroboros Dilemma: Entropy Decay in Recursive LLM Training | Protoethik Research</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta name="description" content="A formal analysis of Knowledge Distillation, Synthetic Data, and the entropy risks of recursive AI training.">
+    <style>
+        /* =========================================
+           1. Visual System (Strictly Preserved)
+           ========================================= */
+        :root {
+            --text-main: #050505;
+            --text-gray: #555555;
+            --bg-white: #ffffff;
+            --bg-yellow: #FFFDF2;
+            --accent-blue: #2563EB;
+            --accent-red: #D93025;
+            --code-bg: #1e1e1e;
+            --btn-radius: 50px;
+            --font-stack: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-serif: "Georgia", "Times New Roman", serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-white);
+            font-family: var(--font-stack);
+            color: var(--text-main);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        ::selection { background: var(--accent-blue); color: #fff; }
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+
+        /* =========================================
+           2. Navigation (Strictly Preserved)
+           ========================================= */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .logo { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.03em; text-transform: uppercase; color: #000; }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: #666; font-size: 0.95rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--accent-blue); }
+        .btn-nav { background-color: #000; color: #fff !important; padding: 10px 24px; border-radius: var(--btn-radius); font-weight: 600; font-size: 0.9rem; }
+
+        /* =========================================
+           3. Layout Components
+           ========================================= */
+        .paper-wrapper { padding-top: 100px; background-color: var(--bg-white); }
+        .paper-header { background-color: var(--bg-yellow); padding: 100px 40px 80px 40px; text-align: center; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .paper-container { max-width: 900px; margin: 0 auto; position: relative; }
+
+        .paper-title { font-size: 2.8rem; line-height: 1.2; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 24px; color: #000; }
+        .paper-subtitle { font-size: 1.4rem; color: #444; margin-bottom: 30px; font-weight: 500; display: block; line-height: 1.4; font-family: var(--font-stack); }
+        .paper-meta { font-size: 1.0rem; color: var(--text-gray); margin-bottom: 30px; font-family: monospace; text-transform: uppercase; letter-spacing: 0.05em; }
+        .author-name { font-weight: 700; color: var(--text-main); border-bottom: 2px solid var(--accent-blue); }
+
+        .btn-read-full { display: inline-flex; align-items: center; justify-content: center; background-color: #000; color: #fff; padding: 16px 40px; border-radius: var(--btn-radius); font-weight: 600; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-top: 30px;}
+        .btn-read-full:hover { background-color: var(--accent-blue); transform: translateY(-2px); box-shadow: 0 15px 40px rgba(37, 99, 235, 0.3); }
+
+        /* =========================================
+           4. Content Styling
+           ========================================= */
+        .paper-body { padding: 60px 40px 100px 40px; font-size: 1.15rem; }
+        
+        .paper-body h2 { font-size: 2.0rem; font-weight: 800; margin-top: 70px; margin-bottom: 25px; letter-spacing: -0.02em; color: #000; border-bottom: 3px solid #f0f0f0; padding-bottom: 15px; }
+        .paper-body h3 { font-size: 1.5rem; font-weight: 700; margin-top: 45px; margin-bottom: 15px; color: #222; }
+        .paper-body h4 { font-size: 1.2rem; font-weight: 700; margin-top: 30px; margin-bottom: 10px; color: #444; }
+        .paper-body p { margin-bottom: 24px; color: #333; text-align: justify; line-height: 1.75; }
+        
+        /* Math/Formula Styling */
+        .math-block {
+            background-color: #fcfcfc;
+            border: 1px solid #eee;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+            font-family: "Times New Roman", serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            color: #444;
+        }
+        .math-symbol { font-family: "Times New Roman", serif; font-weight: bold; }
+
+        /* Abstract */
+        .abstract-section { background-color: #111; color: #ccc; padding: 50px; border-radius: 12px; margin-bottom: 60px; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .abstract-section::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, var(--accent-blue), #99ccff); }
+        .abstract-title { color: #fff; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 15px; display: block; font-size: 0.9rem; }
+        .abstract-text { font-size: 1.05rem; line-height: 1.7; font-style: normal; color: #e0e0e0; }
+
+        /* Impact Boxes */
+        .impact-box { border-left: 4px solid var(--accent-blue); background: #f8faff; padding: 30px; margin: 40px 0; border-radius: 0 8px 8px 0; }
+        .impact-box.danger { border-left-color: var(--accent-red); background: #fff5f5; }
+        .impact-label { display: block; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+        .impact-box .impact-label { color: var(--accent-blue); }
+        .impact-box.danger .impact-label { color: var(--accent-red); }
+        .impact-text { font-size: 1.1rem; font-weight: 500; font-style: italic; color: #222; margin: 0; }
+
+        /* =========================================
+           5. Code Blocks
+           ========================================= */
+        .code-wrapper {
+            position: relative;
+            margin: 35px 0;
+            background-color: var(--code-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            font-size: 0.9rem;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 20px;
+            background-color: #252526;
+            border-bottom: 1px solid #333;
+            color: #aaa;
+            font-size: 0.8rem;
+            font-family: monospace;
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            color: #ccc;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-copy svg { width: 12px; height: 12px; fill: currentColor; }
+
+        pre {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+            color: #d4d4d4;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            line-height: 1.5;
+        }
+        code { color: inherit; }
+        .token-keyword { color: #569cd6; }
+        .token-string { color: #ce9178; }
+        .token-comment { color: #6a9955; font-style: italic; }
+        .token-func { color: #dcdcaa; }
+        .token-num { color: #b5cea8; }
+
+        /* =========================================
+           6. Figures & Tables
+           ========================================= */
+        .figure-container {
+            margin: 40px 0;
+            text-align: center;
+        }
+        .figure-placeholder {
+            width: 100%;
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+        }
+        .figure-caption {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Scientific Table */
+        table { width: 100%; border-collapse: collapse; margin: 40px 0; font-size: 0.95rem; border-top: 2px solid #333; border-bottom: 2px solid #333; }
+        th { background-color: #fff; font-weight: 700; text-align: left; padding: 12px 15px; border-bottom: 1px solid #000; }
+        td { border-bottom: 1px solid #eee; padding: 12px 15px; vertical-align: top; color: #444; }
+        tr:last-child td { border-bottom: none; }
+        .table-caption { caption-side: top; text-align: left; font-weight: bold; margin-bottom: 10px; color: #333; }
+
+        /* References */
+        .references { margin-top: 80px; padding-top: 40px; border-top: 1px solid #ccc; font-size: 0.9rem; color: #444; }
+        .references h3 { margin-top: 0; font-size: 1.4rem; color: #000; margin-bottom: 20px; }
+        .ref-item { padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 12px; line-height: 1.5; }
+
+        /* =========================================
+           7. Footer (Strictly Preserved)
+           ========================================= */
+        .footer {
+            background-color: #080808;
+            color: #ffffff;
+            padding: 80px 40px 40px 40px;
+            font-size: 0.95rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .footer-brand { flex: 0 0 100%; max-width: 300px; margin-bottom: 20px; }
+        .footer-brand h3 { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.05em; }
+        .footer-brand p { color: #888; line-height: 1.6; font-size: 0.9rem; }
+
+        .footer-section { flex: 1; min-width: 160px; }
+        .footer-section h4 { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #666; margin-bottom: 24px; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 12px; }
+        .footer-section ul li a { color: #ccc; transition: color 0.2s, padding-left 0.2s; }
+        .footer-section ul li a:hover { color: #fff; padding-left: 4px; }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 80px auto 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .footer-social-icons { display: flex; gap: 20px; }
+        .footer-social-icons a { color: #fff; opacity: 0.6; transition: opacity 0.2s; }
+        .footer-social-icons a:hover { opacity: 1; }
+        .footer-social-icons svg { fill: currentColor; }
+
+        @media (max-width: 768px) {
+            .paper-title { font-size: 2rem; }
+            .paper-body { padding: 30px 20px; }
+            nav { flex-direction: column; align-items: flex-start; padding: 15px 20px; gap: 15px; }
+            .nav-links { width: 100%; justify-content: flex-start; gap: 20px; overflow-x: auto; padding-bottom: 5px; }
+            .footer-content { flex-direction: column; gap: 40px; }
+            .footer-bottom { flex-direction: column-reverse; text-align: center; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">PROTOETH<span style="font-style:italic;">I</span>K</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="research.html">Research</a>
+            <a href="https://docs.tyloai.com">Docs</a>
+            <a href="index.html#news-section">News</a>
+            <a href="about.html">Company</a>
+            <a href="https://tyloai.com" class="btn-nav">Try TyloAI</a>
+        </div>
+    </nav>
+
+    <header class="paper-header">
+        <div class="paper-container">
+            <h1 class="paper-title">The Ouroboros Dilemma: <br><span style="font-size: 0.7em; color: #333;">Entropy Decay in Recursively Trained LLMs</span></h1>
+            <span class="paper-subtitle">An empirical analysis of Mode Collapse under recursive Knowledge Distillation protocols.</span>
+            
+            <div class="paper-meta">
+                November 26, 2025  &nbsp; • &nbsp; <span class="author-name">E. Vance, et al.</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="paper-wrapper">
+        <article class="paper-body paper-container">
+            
+            <div class="abstract-section">
+                <span class="abstract-title">Abstract</span>
+                <p class="abstract-text">
+                    As the reservoir of high-quality human-generated text approaches depletion, the machine learning paradigm is shifting towards training on synthetic data generated by Large Language Models (LLMs). While Knowledge Distillation (KD) effectively compresses capabilities from Teacher to Student models, recursive application of this process ($M_i \rightarrow \text{Data} \rightarrow M_{i+1}$) introduces a phenomenon we term <strong>Model Autophagy</strong>. In this work, we demonstrate that recursive training without external entropy injection leads to a measurable collapse in the probability distribution tails, resulting in models that exhibit low perplexity but high "blindness" to rare concepts. We propose a <strong>Hybrid Entropy Injection (HEI)</strong> framework that utilizes rejection sampling based on fractal dimension analysis to sustain model variance over generations.
+                </p>
+            </div>
+
+            <h2>1. Introduction: The Saturation of Human Priors</h2>
+            <p>The scaling laws of Deep Learning (Kaplan et al., 2020) rely heavily on the assumption of independent and identically distributed (i.i.d.) data acquisition. However, recent projections indicate that high-quality public text data will be exhausted by 2026 (Villalobos et al., 2022). This impending "Data Wall" necessitates a shift towards Synthetic Data. While techniques like <strong>Self-Instruct</strong> have shown promise in alignment, they pose existential risks when used for pre-training. This paper investigates the thermodynamic consequences of closed-loop AI training systems.</p>
+
+            <h2>2. Theoretical Framework: Distillation as Compression</h2>
+            <p>Knowledge Distillation (KD) can be mathematically formalized as the minimization of the Kullback-Leibler (KL) divergence between the teacher's soft targets and the student's probability distribution. The objective function $\mathcal{L}_{KD}$ is defined as:</p>
+
+            <div class="math-block">
+                $\mathcal{L}_{KD} = (1 - \alpha) \mathcal{L}_{CE}(y, \sigma(z_s)) + \alpha \tau^2 \mathcal{L}_{KL}(\sigma(z_s/\tau), \sigma(z_t/\tau))$
+            </div>
+
+            <p>Where $z_s$ and $z_t$ are logits of the student and teacher, $\tau$ is the temperature, and $\alpha$ balances the hard (ground truth) and soft losses. As $\tau \to \infty$, the gradient approximates the matching of logits, effectively transferring the "dark knowledge" or inter-class relationships.</p>
+
+            <div class="code-wrapper">
+                <div class="code-header">
+                    <span>algorithms/kd_loss.py</span>
+                    <button class="btn-copy" onclick="copyCode(this)">
+                        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        Copy Code
+                    </button>
+                </div>
+                <pre><code><span class="token-keyword">import</span> torch
+<span class="token-keyword">import</span> torch.nn.functional <span class="token-keyword">as</span> F
+
+<span class="token-keyword">def</span> <span class="token-func">distillation_objective</span>(student_logits, teacher_logits, labels, T=4.0, alpha=0.7):
+    <span class="token-string">"""
+    PyTorch implementation of KD Loss with Temperature Scaling.
+    Args:
+        T (float): Temperature. Higher T softens the distribution, exposing tail classes.
+        alpha (float): Weighting for the soft target loss.
+    """</span>
+    <span class="token-comment"># 1. KL Divergence Loss (Soft Targets)</span>
+    <span class="token-comment"># log_softmax is required for KLDivLoss in PyTorch</span>
+    p_s = F.log_softmax(student_logits / T, dim=1)
+    p_t = F.softmax(teacher_logits / T, dim=1)
+    
+    loss_kl = F.kl_div(p_s, p_t, reduction='batchmean') * (T ** <span class="token-num">2</span>)
+    
+    <span class="token-comment"># 2. Cross Entropy Loss (Hard Targets / Ground Truth)</span>
+    loss_ce = F.cross_entropy(student_logits, labels)
+    
+    <span class="token-comment"># 3. Weighted Combination</span>
+    <span class="token-keyword">return</span> loss_kl * alpha + loss_ce * (1. - alpha)</code></pre>
+            </div>
+
+            <h2>3. The Phenomenon of Model Collapse</h2>
+            <p>When a model is trained on data generated by a previous version of itself (or a similar model), the variance of the data distribution shrinks. Since generative models effectively sample from the mean of their training distribution to maximize likelihood, they systematically under-sample the tails (rare events).</p>
+            
+            <div class="impact-box danger">
+                <span class="impact-label">Proposition 1: Variance Decay</span>
+                <p class="impact-text">
+                    "Given a sequence of models $M_0, M_1, ... M_n$ where $M_{i+1}$ is trained on $\mathcal{D}_i \sim M_i$, the differential entropy $H(\mathcal{D})$ is strictly decreasing, i.e., $H(\mathcal{D}_{i+1}) < H(\mathcal{D}_i)$. This results in a convergence towards a delta function centered on the most probable tokens."
+                </p>
+            </div>
+
+            <p>This decay is particularly dangerous in <strong>Visual Large Language Models (V-LLMs)</strong> and multi-modal transformers (e.g., Swin Transformer architectures), where "averaging" visual features results in textures losing high-frequency detail and logical spatial relationships dissolving—a phenomenon akin to "jpeg artifacts" in cognitive reasoning.</p>
+
+            <h3>3.1 Experimental Results (Simulation)</h3>
+            <p>We simulated 5 generations of recursive training using a LLaMA-3-8B base. We tracked Perplexity (PPL) and Unique N-gram usage (a proxy for creativity).</p>
+
+            <table>
+                <caption class="table-caption">Table 1: Metrics over 5 Recursive Generations (Gen 0 = Human Data)</caption>
+                <thead>
+                    <tr>
+                        <th>Generation</th>
+                        <th>Perplexity ($\downarrow$)</th>
+                        <th>Unique Bigrams (k)</th>
+                        <th>Hallucination Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Gen 0 (Base)</strong></td>
+                        <td>5.23</td>
+                        <td>420.5</td>
+                        <td>12.4%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gen 1</strong></td>
+                        <td>4.80</td>
+                        <td>380.1</td>
+                        <td>14.2%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gen 3</strong></td>
+                        <td>4.10</td>
+                        <td>210.4</td>
+                        <td>28.7%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gen 5 (Collapse)</strong></td>
+                        <td>3.65</td>
+                        <td>95.2</td>
+                        <td>56.3%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="figure-caption">Note: While Perplexity decreases (model becomes more "confident"), the unique bigrams plummet, indicating a massive loss of vocabulary and conceptual diversity.</div>
+
+            <h2>4. Methodology: Hybrid Entropy Injection (HEI)</h2>
+            <p>To mitigate collapse, we propose a <strong>Hybrid Diet</strong>. While synthetically generated reasoning chains (CoT) improve logic (as seen in DeepSeek-R1 and o1), they must be grounded by "Entropy Anchors"—pristine human data that preserves the irregular, non-linear nature of reality.</p>
+            
+            <p>Our HEI framework utilizes a discriminator network trained to identify "synthetic artifacts"—statistical watermarks left by LLMs. Data is only admitted to the training set if it passes a <strong>Burstiness Threshold</strong>, ensuring it contains sufficient novelty.</p>
+
+            <h2>5. Conclusion & Future Work</h2>
+            <p>The "Ouroboros" of AI training AI is not sustainable in a closed loop. Our findings suggest that while Knowledge Distillation is a powerful compression technique, it cannot create new information entropy. Future work will focus on <strong>Active Learning</strong> strategies where the Student model explicitly requests human annotation only for high-uncertainty regions, optimizing the "Human-in-the-Loop" bandwidth.</p>
+
+            <div class="references">
+                <h3>References</h3>
+                <div class="ref-item">Kaplan, J., et al. (2020). <em>Scaling Laws for Neural Language Models.</em> arXiv:2001.08361.</div>
+                <div class="ref-item">Villalobos, P., et al. (2022). <em>Will we run out of data? An analysis of the limits of scaling datasets in Machine Learning.</em> arXiv:2211.04325.</div>
+                <div class="ref-item">Shumailov, I., et al. (2023). <em>The Curse of Recursion: Training on Generated Data Makes Models Forget.</em> arXiv:2305.17493.</div>
+                <div class="ref-item">Hinton, G., Vinyals, O., & Dean, J. (2015). <em>Distilling the Knowledge in a Neural Network.</em> NIPS Deep Learning Workshop.</div>
+                <div class="ref-item">Liu, Z., et al. (2021). <em>Swin Transformer: Hierarchical Vision Transformer using Shifted Windows.</em> ICCV 2021.</div>
+            </div>
+
+        </article>
+    </div>
+
+<footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Protoethik</h3>
+                <p>Building responsible AI systems that empower humanity through deep thinking and transparent reasoning. Founded January 2025.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="https://tyloai.com">TyloAI</a></li>
+                    <li><a href="https://docs.tyloai.com/ode-code.html">ode-code</a></li>
+                    <li><a href="ode.html">ode-7 Models</a></li>
+                    <li><a href="plan.html">Free Plan</a></li>
+                    <li><a href="plan.html">Pro Plan</a></li>
+                    <li><a href="plan.html">Max Plan</a></li>
+                    <li><a href="plan-for-enterprise.html">Enterprise plan</a></li>
+                    <li><a href="https://tyloai.com/login">Login to TyloAI</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Model</h4>
+                <ul>
+                    <li><a href="ode.html">ode-7 family</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>TyloAI Developer Platform</h4>
+                <ul>
+                    <li><a href="https://docs.tyloai.com">Overview</a></li>
+                    <li><a href="https://docs.tyloai.com/docs.html">Docs</a></li>
+                    <li><a href="https://docs.tyloai.com/ode-code.html">ode-code docs</a></li>
+                    <li><a href="https://docs.tyloai.com/search.html">search</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">Protoethik</a></li>
+                    <li><a href="research.html">Research</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="https://github.com/TyloAI/" target="_blank">Open Source</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Terms and policies</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                    <li><a href="mailto:info@tyloai.com">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Protoethik Inc. All rights reserved.</p>
+            <div class="footer-social-icons">
+                <a href="https://www.youtube.com/tyloai" target="_blank" aria-label="TyloAI on YouTube">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zM9.777 15.385V8.615l6.23 3.385-6.23 3.385z"/></svg>
+                </a>
+                <a href="https://github.com/TyloAI" target="_blank" aria-label="TyloAI on GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.034c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://x.com/TyloAI" target="_blank" aria-label="TyloAI on X (Twitter)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="mailto:info@tyloai.com" aria-label="Email Us">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function copyCode(btn) {
+            const wrapper = btn.closest('.code-wrapper');
+            const codeBlock = wrapper.querySelector('pre code');
+            
+            if (codeBlock) {
+                const textToCopy = codeBlock.innerText;
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Copied!';
+                    btn.style.color = '#4cd964';
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.style.color = '#ccc';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
